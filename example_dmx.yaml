@@ -1,0 +1,28 @@
+external_components:
+  - source: github://andyboeh/esphome-dmx512
+
+uart:
+  id: uart_bus
+  baud_rate: 250000
+  tx_pin: 5
+  stop_bits: 2
+
+dmx512:
+  id: dmx
+  uart_id: uart_bus
+  enable_pin: 33
+  tx_pin: 5
+  uart_num: 1
+
+output:
+  - platform: dmx512
+    channel: 1
+    universe: dmx
+    id: dmx_1
+
+light:
+  - platform: monochromatic
+    name: "Test Lights"
+    output: dmx_1
+    id: light_test
+    default_transition_length: 2s
