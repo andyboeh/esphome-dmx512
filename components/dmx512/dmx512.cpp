@@ -8,7 +8,7 @@ static const char *TAG = "dmx512";
 
 void DMX512::loop() {
   bool update = false;
-  if(this->update_ || (this->last_update_ + UPDATE_INTERVAL_MS < millis())) {
+  if(this->update_ || ((this->last_update_ + UPDATE_INTERVAL_MS < millis()) && this->periodic_update_)) {
     update = true;
   }
   if(update) {
@@ -27,7 +27,7 @@ void DMX512::sendBreak() {
   digitalWrite(this->tx_pin_, LOW);
   delayMicroseconds(DMX_BREAK_LEN);
   digitalWrite(this->tx_pin_, HIGH);
-  delayMicroseconds(1);
+  delayMicroseconds(DMX_MAB_LEN);
   pinMatrixOutAttach(this->tx_pin_, this->uart_idx_, false, false);
 }
 
@@ -48,6 +48,8 @@ void DMX512::setup() {
 void DMX512::set_channel_used(uint16_t channel) {
   if(channel > this->max_chan_)
     this->max_chan_ = channel;
+  if(this->force_full_frames_)
+    this->max_chan_ = DMX_MAX_CHANNEL;
 }
 
 void DMX512::write_channel(uint16_t channel, uint8_t value) {

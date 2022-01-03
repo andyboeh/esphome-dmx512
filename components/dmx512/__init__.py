@@ -14,6 +14,8 @@ DMX512 = dmx512_ns.class_('DMX512', cg.Component)
 CONF_DMX512_ID = 'dmx512_id'
 CONF_ENABLE_PIN = 'enable_pin'
 CONF_UART_NUM = 'uart_num'
+CONF_PERIODIC_UPDATE = 'periodic_update'
+CONF_FORCE_FULL_FRAMES = 'force_full_frames'
 
 def _declare_type(value):
     if CORE.is_esp32:
@@ -26,6 +28,8 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_ENABLE_PIN): pins.gpio_output_pin_schema,
     cv.Optional(CONF_TX_PIN, default=5): cv.int_range(min=0,max=39),
     cv.Optional(CONF_UART_NUM, default=1): cv.int_range(min=0, max=2),
+    cv.Optional(CONF_PERIODIC_UPDATE, default=True): cv.boolean,
+    cv.Optional(CONF_FORCE_FULL_FRAMES, default=False): cv.boolean,
 }).extend(cv.COMPONENT_SCHEMA).extend(uart.UART_DEVICE_SCHEMA)
 
 async def to_code(config):
@@ -40,3 +44,5 @@ async def to_code(config):
 
     cg.add(var.set_uart_tx_pin(config[CONF_TX_PIN]))
     cg.add(var.set_uart_num(config[CONF_UART_NUM]))
+    cg.add(var.set_periodic_update(config[CONF_PERIODIC_UPDATE]))
+    cg.add(var.set_force_full_frames(config[CONF_FORCE_FULL_FRAMES]))

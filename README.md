@@ -25,6 +25,8 @@ dmx512:
   enable_pin: 33
   tx_pin: 5
   uart_num: 1
+  periodic_update: true
+  force_full_frames: false
 ```
 
   * `id`: The ID of this DMX512 hub
@@ -35,3 +37,5 @@ dmx512:
   for the generation of the break signal. Defaults to 5.
   * `uart_num`: Set this to the internal ESP32 UART number. If only logging is
   configured, this should be set to 1 (default). 
+  * `periodic_update`: If set to false, only state changes are transmitted and the bus is silent in between - violates the specification and may cause some dimmers to turn off
+  * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.

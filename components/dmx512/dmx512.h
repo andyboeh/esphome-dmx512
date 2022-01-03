@@ -8,7 +8,8 @@
 #define UPDATE_INTERVAL_MS  500
 #define DMX_MAX_CHANNEL     512
 #define DMX_MSG_SIZE        DMX_MAX_CHANNEL + 1
-#define DMX_BREAK_LEN       88
+#define DMX_BREAK_LEN       92
+#define DMX_MAB_LEN         12
 
 namespace esphome {
 namespace dmx512 {
@@ -34,6 +35,10 @@ class DMX512 : public Component {
   
   void set_channel_used(uint16_t channel);
 
+  void set_force_full_frames(bool force) { force_full_frames_ = force; }
+
+  void set_periodic_update(bool update) { periodic_update_ = update; }
+
   void set_uart_num(int num) { 
     if(num == 0) {
         this->uart_idx_ = U0TXD_OUT_IDX;
@@ -58,6 +63,8 @@ class DMX512 : public Component {
   int tx_pin_{0};
   uint16_t max_chan_{0};
   bool update_{true};
+  bool periodic_update_{true};
+  bool force_full_frames_{false};
   unsigned long last_update_{0};
   GPIOPin *pin_enable_{nullptr};
 };
