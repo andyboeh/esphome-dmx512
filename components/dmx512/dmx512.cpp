@@ -22,16 +22,6 @@ void DMX512::loop() {
   }
 }
 
-void DMX512::sendBreak() {
-  pinMatrixOutDetach(this->tx_pin_, false, false);
-  pinMode(this->tx_pin_, OUTPUT);
-  digitalWrite(this->tx_pin_, LOW);
-  delayMicroseconds(this->break_len_);
-  digitalWrite(this->tx_pin_, HIGH);
-  delayMicroseconds(this->mab_len_);
-  pinMatrixOutAttach(this->tx_pin_, this->uart_idx_, false, false);
-}
-
 void DMX512::dump_config() {
   ESP_LOGCONFIG(TAG, "Setting up DMX512...");
 }

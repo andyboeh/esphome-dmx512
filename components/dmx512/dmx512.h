@@ -3,7 +3,6 @@
 #include "esphome/core/component.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/output/float_output.h"
-#include "esp32-hal-matrix.h"
 
 #define UPDATE_INTERVAL_MS  500
 #define DMX_MAX_CHANNEL     512
@@ -27,7 +26,7 @@ class DMX512 : public Component {
 
   void dump_config() override;
   
-  void sendBreak();
+  virtual void sendBreak() = 0;
 
   void set_enable_pin(GPIOPin *pin_enable) { pin_enable_ = pin_enable; }
   
@@ -45,15 +44,7 @@ class DMX512 : public Component {
 
   void set_update_interval(int intvl) { update_interval_ = intvl; }
 
-  void set_uart_num(int num) { 
-    if(num == 0) {
-        this->uart_idx_ = U0TXD_OUT_IDX;
-    } else if(num == 1) {
-        this->uart_idx_ = U1TXD_OUT_IDX;
-    } else if(num == 2) {
-        this->uart_idx_ = U2TXD_OUT_IDX;
-    }
-  }
+  virtual void set_uart_num(int num) = 0;
 
   float get_setup_priority() const override { return setup_priority::BUS; }
 
