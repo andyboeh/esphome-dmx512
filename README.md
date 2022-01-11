@@ -27,6 +27,9 @@ dmx512:
   uart_num: 1
   periodic_update: true
   force_full_frames: false
+  custom_break_len: 92
+  custom_mab_len: 12
+  update_interval: 500
 ```
 
   * `id`: The ID of this DMX512 hub
@@ -39,3 +42,6 @@ dmx512:
   configured, this should be set to 1 (default). 
   * `periodic_update`: If set to false, only state changes are transmitted and the bus is silent in between - violates the specification and may cause some dimmers to turn off
   * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.
+  * `custom_mab_len`: Set a custom mark-after-break length (in uS, default 12)
+  * `custom_break_len`: Set a custom break length (in uS, default 92)
+  * `update_interval`: Specify a custom update interval, i.e. the minimum time between resending the current values (in ms, default 500)

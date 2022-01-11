@@ -39,6 +39,12 @@ class DMX512 : public Component {
 
   void set_periodic_update(bool update) { periodic_update_ = update; }
 
+  void set_mab_len(int len) { mab_len_ = len; }
+
+  void set_break_len(int len) { break_len_ = len; }
+
+  void set_update_interval(int intvl) { update_interval_ = intvl; }
+
   void set_uart_num(int num) { 
     if(num == 0) {
         this->uart_idx_ = U0TXD_OUT_IDX;
@@ -61,6 +67,9 @@ class DMX512 : public Component {
   uint8_t device_values_[DMX_MSG_SIZE];
   int uart_idx_{0};
   int tx_pin_{0};
+  int update_interval_{UPDATE_INTERVAL_MS};
+  int mab_len_{DMX_MAB_LEN};
+  int break_len_{DMX_BREAK_LEN};
   uint16_t max_chan_{0};
   bool update_{true};
   bool periodic_update_{true};

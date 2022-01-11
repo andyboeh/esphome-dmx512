@@ -8,10 +8,11 @@ static const char *TAG = "dmx512";
 
 void DMX512::loop() {
   bool update = false;
-  if(this->update_ || ((this->last_update_ + UPDATE_INTERVAL_MS < millis()) && this->periodic_update_)) {
+  if(this->update_ || ((this->last_update_ + this->update_interval_ < millis()) && this->periodic_update_)) {
     update = true;
   }
   if(update) {
+    ESP_LOGD(TAG, "update");
     this->uart_->flush();
     this->sendBreak();
     this->device_values_[0] = 0;
@@ -25,9 +26,9 @@ void DMX512::sendBreak() {
   pinMatrixOutDetach(this->tx_pin_, false, false);
   pinMode(this->tx_pin_, OUTPUT);
   digitalWrite(this->tx_pin_, LOW);
-  delayMicroseconds(DMX_BREAK_LEN);
+  delayMicroseconds(this->break_len_);
   digitalWrite(this->tx_pin_, HIGH);
-  delayMicroseconds(DMX_MAB_LEN);
+  delayMicroseconds(this->mab_len_);
   pinMatrixOutAttach(this->tx_pin_, this->uart_idx_, false, false);
 }
 

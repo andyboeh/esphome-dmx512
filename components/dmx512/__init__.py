@@ -16,6 +16,9 @@ CONF_ENABLE_PIN = 'enable_pin'
 CONF_UART_NUM = 'uart_num'
 CONF_PERIODIC_UPDATE = 'periodic_update'
 CONF_FORCE_FULL_FRAMES = 'force_full_frames'
+CONF_CUSTOM_BREAK_LEN = 'custom_break_len'
+CONF_CUSTOM_MAB_LEN = 'custom_mab_len'
+CONF_UPDATE_INTERVAL = 'update_interval'
 
 def _declare_type(value):
     if CORE.is_esp32:
@@ -30,6 +33,9 @@ CONFIG_SCHEMA = cv.Schema({
     cv.Optional(CONF_UART_NUM, default=1): cv.int_range(min=0, max=2),
     cv.Optional(CONF_PERIODIC_UPDATE, default=True): cv.boolean,
     cv.Optional(CONF_FORCE_FULL_FRAMES, default=False): cv.boolean,
+    cv.Optional(CONF_CUSTOM_MAB_LEN, default=12): cv.int_range(min=12,max=1000),
+    cv.Optional(CONF_CUSTOM_BREAK_LEN, default=92): cv.int_range(min=92, max=1000),
+    cv.Optional(CONF_UPDATE_INTERVAL, default=500): cv.int_range(),
 }).extend(cv.COMPONENT_SCHEMA).extend(uart.UART_DEVICE_SCHEMA)
 
 async def to_code(config):
@@ -46,3 +52,6 @@ async def to_code(config):
     cg.add(var.set_uart_num(config[CONF_UART_NUM]))
     cg.add(var.set_periodic_update(config[CONF_PERIODIC_UPDATE]))
     cg.add(var.set_force_full_frames(config[CONF_FORCE_FULL_FRAMES]))
+    cg.add(var.set_mab_len(config[CONF_CUSTOM_MAB_LEN]))
+    cg.add(var.set_break_len(config[CONF_CUSTOM_BREAK_LEN]))
+    cg.add(var.set_update_interval(config[CONF_UPDATE_INTERVAL]))
