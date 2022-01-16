@@ -1,18 +1,21 @@
 # Example configuration for four ADJ VBar Pak fixtures daisy chained with XLR cables
 # DMX description: https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8659/vbar_pak.pdf
 # Fixture configuration set for DMX 8 channel mode
+# Note: for ESP8266 don't forget to also set "esp8266_restore_from_flash: true" in "esphome:" section
 
 uart:
   id: uart_bus
   baud_rate: 250000
-  tx_pin: GPIO2 #ESP8266
+  tx_pin: GPIO2
   stop_bits: 2
 
 dmx512:
   id: dmx
   uart_id: uart_bus
-  tx_pin: GPIO2 #ESP8266
+  tx_pin: GPIO2
   uart_num: 1
+#  force_full_frames: true
+
 
 output:
 - platform: dmx512
@@ -147,6 +150,7 @@ output:
   universe: dmx
   id: vbar4_effect_mode
 
+
 number:
 - platform: template
   name: "VBar1 Effect Level"
@@ -156,24 +160,10 @@ number:
   min_value: 0
   max_value: 255
   step: 1
-#  mode: box
   restore_value: true
   set_action:
     - lambda: |-
         id(vbar1_effect_level).set_level(x / 255);
-- platform: template
-  name: "VBar1 Effect Mode"
-  icon: mdi:dots-hexagon
-  id: vbar1_effect_mode_num
-  optimistic: true
-  min_value: 0
-  max_value: 255
-  step: 1
-  mode: box
-  restore_value: true
-  set_action:
-    - lambda: |-
-        id(vbar1_effect_mode).set_level(x / 255);
 
 - platform: template
   name: "VBar2 Effect Level"
@@ -183,24 +173,10 @@ number:
   min_value: 0
   max_value: 255
   step: 1
-#  mode: box
   restore_value: true
   set_action:
     - lambda: |-
         id(vbar2_effect_level).set_level(x / 255);
-- platform: template
-  name: "VBar2 Effect Mode"
-  icon: mdi:dots-hexagon
-  id: vbar2_effect_mode_num
-  optimistic: true
-  min_value: 0
-  max_value: 255
-  step: 1
-  mode: box
-  restore_value: true
-  set_action:
-    - lambda: |-
-        id(vbar2_effect_mode).set_level(x / 255);
 
 - platform: template
   name: "VBar3 Effect Level"
@@ -210,24 +186,10 @@ number:
   min_value: 0
   max_value: 255
   step: 1
-#  mode: box
   restore_value: true
   set_action:
     - lambda: |-
         id(vbar3_effect_level).set_level(x / 255);
-- platform: template
-  name: "VBar3 Effect Mode"
-  icon: mdi:dots-hexagon
-  id: vbar3_effect_mode_num
-  optimistic: true
-  min_value: 0
-  max_value: 255
-  step: 1
-  mode: box
-  restore_value: true
-  set_action:
-    - lambda: |-
-        id(vbar3_effect_mode).set_level(x / 255);
 
 - platform: template
   name: "VBar4 Effect Level"
@@ -237,24 +199,11 @@ number:
   min_value: 0
   max_value: 255
   step: 1
-#  mode: box
   restore_value: true
   set_action:
     - lambda: |-
         id(vbar4_effect_level).set_level(x / 255);
-- platform: template
-  name: "VBar4 Effect Mode"
-  icon: mdi:dots-hexagon
-  id: vbar4_effect_mode_num
-  optimistic: true
-  min_value: 0
-  max_value: 255
-  step: 1
-  mode: box
-  restore_value: true
-  set_action:
-    - lambda: |-
-        id(vbar4_effect_mode).set_level(x / 255);
+
 
 select:
 - platform: template
@@ -272,33 +221,106 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (x.compare(std::string{"None"}) == 0) {
+          if (0 == x.compare(std::string{"None"})) {
             id(vbar1_effect_select).set_level(0);
-            auto call_level = id(vbar1_effect_level_num).make_call();
-            auto call_mode = id(vbar1_effect_mode_num).make_call();
-            call_level.set_value(0);
-            call_mode.set_value(0);
-            call_level.perform();
-            call_mode.perform();
+            id(vbar1_effect_mode).set_level(0);
+            auto call = id(vbar1_effect_level_num).make_call();
+            call.set_value(0);
+            call.perform();
           }
-          if (x.compare(std::string{"Strobing"}) == 0) {
+          if (0 == x.compare(std::string{"Strobing"})) {
             id(vbar1_effect_select).set_level(0.04);
           }
-          if (x.compare(std::string{"Color Macro"}) == 0) {
+          if (0 == x.compare(std::string{"Color Macro"})) {
             id(vbar1_effect_select).set_level(0.3);
           }
-          if (x.compare(std::string{"Color Change"}) == 0) {
+          if (0 == x.compare(std::string{"Color Change"})) {
             id(vbar1_effect_select).set_level(0.5);
           }
-          if (x.compare(std::string{"Color Fade"}) == 0) {
+          if (0 == x.compare(std::string{"Color Fade"})) {
             id(vbar1_effect_select).set_level(0.66);
           }
-          if (x.compare(std::string{"Sound Active"}) == 0) {
+          if (0 == x.compare(std::string{"Sound Active"})) {
             id(vbar1_effect_select).set_level(0.9);
             auto call = id(vbar1_effect_level_num).make_call();
             call.set_value(200);
             call.perform();
           }
+
+- platform: template
+  name: "VBar1 Effect Mode"
+  icon: mdi:dots-hexagon
+  optimistic: true
+  restore_value: true
+  id: vbar1_effect_mode_dropdown
+  options:
+    - Change-Fade-Sound-1-Macro-OFF
+    - Change-Fade-Sound-2-Macro-R
+    - Change-Fade-Sound-3-Macro-G
+    - Change-Fade-Sound-4-Macro-B
+    - Change-Fade-Sound-5-Macro-A
+    - Change-Fade-Sound-6-Macro-RG
+    - Change-Fade-Sound-7-Macro-RB
+    - Change-Fade-Sound-8-Macro-RA
+    - Change-Fade-Sound-9-Macro-GB
+    - Change-Fade-Sound-10-Macro-GA
+    - Change-Fade-Sound-11-Macro-BA
+    - Change-Fade-Sound-12-Macro-RGB
+    - Change-Fade-Sound-13-Macro-RGA
+    - Change-Fade-Sound-14-Macro-RBA
+    - Change-Fade-Sound-15-Macro-GBA
+    - Change-Fade-Sound-16-Macro-RGBA
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"Change-Fade-Sound-1-Macro-OFF"})) {
+            id(vbar1_effect_mode).set_level(0.03);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-2-Macro-R"})) {
+            id(vbar1_effect_mode).set_level(0.09);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-3-Macro-G"})) {
+            id(vbar1_effect_mode).set_level(0.16);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-4-Macro-B"})) {
+            id(vbar1_effect_mode).set_level(0.22);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-5-Macro-A"})) {
+            id(vbar1_effect_mode).set_level(0.28);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-6-Macro-RG"})) {
+            id(vbar1_effect_mode).set_level(0.35);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-7-Macro-RB"})) {
+            id(vbar1_effect_mode).set_level(0.41);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-8-Macro-RA"})) {
+            id(vbar1_effect_mode).set_level(0.47);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-9-Macro-GB"})) {
+            id(vbar1_effect_mode).set_level(0.53);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-10-Macro-GA"})) {
+            id(vbar1_effect_mode).set_level(0.6);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-11-Macro-BA"})) {
+            id(vbar1_effect_mode).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-12-Macro-RGB"})) {
+            id(vbar1_effect_mode).set_level(0.72);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-13-Macro-RGA"})) {
+            id(vbar1_effect_mode).set_level(0.78);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-14-Macro-RBA"})) {
+            id(vbar1_effect_mode).set_level(0.85);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-15-Macro-GBA"})) {
+            id(vbar1_effect_mode).set_level(0.91);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-16-Macro-RGBA"})) {
+            id(vbar1_effect_mode).set_level(0.97);
+          }
+
 
 - platform: template
   name: VBar2 Effect
@@ -315,33 +337,106 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (x.compare(std::string{"None"}) == 0) {
+          if (0 == x.compare(std::string{"None"})) {
             id(vbar2_effect_select).set_level(0);
-            auto call_level = id(vbar2_effect_level_num).make_call();
-            auto call_mode = id(vbar2_effect_mode_num).make_call();
-            call_level.set_value(0);
-            call_mode.set_value(0);
-            call_level.perform();
-            call_mode.perform();
+            id(vbar2_effect_mode).set_level(0);
+            auto call = id(vbar2_effect_level_num).make_call();
+            call.set_value(0);
+            call.perform();
           }
-          if (x.compare(std::string{"Strobing"}) == 0) {
+          if (0 == x.compare(std::string{"Strobing"})) {
             id(vbar2_effect_select).set_level(0.04);
           }
-          if (x.compare(std::string{"Color Macro"}) == 0) {
+          if (0 == x.compare(std::string{"Color Macro"})) {
             id(vbar2_effect_select).set_level(0.3);
           }
-          if (x.compare(std::string{"Color Change"}) == 0) {
+          if (0 == x.compare(std::string{"Color Change"})) {
             id(vbar2_effect_select).set_level(0.5);
           }
-          if (x.compare(std::string{"Color Fade"}) == 0) {
+          if (0 == x.compare(std::string{"Color Fade"})) {
             id(vbar2_effect_select).set_level(0.66);
           }
-          if (x.compare(std::string{"Sound Active"}) == 0) {
+          if (0 == x.compare(std::string{"Sound Active"})) {
             id(vbar2_effect_select).set_level(0.9);
             auto call = id(vbar2_effect_level_num).make_call();
             call.set_value(200);
             call.perform();
           }
+
+- platform: template
+  name: "VBar2 Effect Mode"
+  icon: mdi:dots-hexagon
+  optimistic: true
+  restore_value: true
+  id: vbar2_effect_mode_dropdown
+  options:
+    - Change-Fade-Sound-1-Macro-OFF
+    - Change-Fade-Sound-2-Macro-R
+    - Change-Fade-Sound-3-Macro-G
+    - Change-Fade-Sound-4-Macro-B
+    - Change-Fade-Sound-5-Macro-A
+    - Change-Fade-Sound-6-Macro-RG
+    - Change-Fade-Sound-7-Macro-RB
+    - Change-Fade-Sound-8-Macro-RA
+    - Change-Fade-Sound-9-Macro-GB
+    - Change-Fade-Sound-10-Macro-GA
+    - Change-Fade-Sound-11-Macro-BA
+    - Change-Fade-Sound-12-Macro-RGB
+    - Change-Fade-Sound-13-Macro-RGA
+    - Change-Fade-Sound-14-Macro-RBA
+    - Change-Fade-Sound-15-Macro-GBA
+    - Change-Fade-Sound-16-Macro-RGBA
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"Change-Fade-Sound-1-Macro-OFF"})) {
+            id(vbar2_effect_mode).set_level(0.03);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-2-Macro-R"})) {
+            id(vbar2_effect_mode).set_level(0.09);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-3-Macro-G"})) {
+            id(vbar2_effect_mode).set_level(0.16);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-4-Macro-B"})) {
+            id(vbar2_effect_mode).set_level(0.22);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-5-Macro-A"})) {
+            id(vbar2_effect_mode).set_level(0.28);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-6-Macro-RG"})) {
+            id(vbar2_effect_mode).set_level(0.35);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-7-Macro-RB"})) {
+            id(vbar2_effect_mode).set_level(0.41);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-8-Macro-RA"})) {
+            id(vbar2_effect_mode).set_level(0.47);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-9-Macro-GB"})) {
+            id(vbar2_effect_mode).set_level(0.53);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-10-Macro-GA"})) {
+            id(vbar2_effect_mode).set_level(0.6);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-11-Macro-BA"})) {
+            id(vbar2_effect_mode).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-12-Macro-RGB"})) {
+            id(vbar2_effect_mode).set_level(0.72);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-13-Macro-RGA"})) {
+            id(vbar2_effect_mode).set_level(0.78);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-14-Macro-RBA"})) {
+            id(vbar2_effect_mode).set_level(0.85);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-15-Macro-GBA"})) {
+            id(vbar2_effect_mode).set_level(0.91);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-16-Macro-RGBA"})) {
+            id(vbar2_effect_mode).set_level(0.97);
+          }
+
 
 - platform: template
   name: VBar3 Effect
@@ -358,32 +453,104 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (x.compare(std::string{"None"}) == 0) {
+          if (0 == x.compare(std::string{"None"})) {
             id(vbar3_effect_select).set_level(0);
-            auto call_level = id(vbar3_effect_level_num).make_call();
-            auto call_mode = id(vbar3_effect_mode_num).make_call();
-            call_level.set_value(0);
-            call_mode.set_value(0);
-            call_level.perform();
-            call_mode.perform();
+            id(vbar3_effect_mode).set_level(0);
+            auto call = id(vbar3_effect_level_num).make_call();
+            call.set_value(0);
+            call.perform();
           }
-          if (x.compare(std::string{"Strobing"}) == 0) {
+          if (0 == x.compare(std::string{"Strobing"})) {
             id(vbar3_effect_select).set_level(0.04);
           }
-          if (x.compare(std::string{"Color Macro"}) == 0) {
+          if (0 == x.compare(std::string{"Color Macro"})) {
             id(vbar3_effect_select).set_level(0.3);
           }
-          if (x.compare(std::string{"Color Change"}) == 0) {
+          if (0 == x.compare(std::string{"Color Change"})) {
             id(vbar3_effect_select).set_level(0.5);
           }
-          if (x.compare(std::string{"Color Fade"}) == 0) {
+          if (0 == x.compare(std::string{"Color Fade"})) {
             id(vbar3_effect_select).set_level(0.66);
           }
-          if (x.compare(std::string{"Sound Active"}) == 0) {
+          if (0 == x.compare(std::string{"Sound Active"})) {
             id(vbar3_effect_select).set_level(0.9);
             auto call = id(vbar3_effect_level_num).make_call();
             call.set_value(200);
             call.perform();
+          }
+
+- platform: template
+  name: "VBar3 Effect Mode"
+  icon: mdi:dots-hexagon
+  optimistic: true
+  restore_value: true
+  id: vbar3_effect_mode_dropdown
+  options:
+    - Change-Fade-Sound-1-Macro-OFF
+    - Change-Fade-Sound-2-Macro-R
+    - Change-Fade-Sound-3-Macro-G
+    - Change-Fade-Sound-4-Macro-B
+    - Change-Fade-Sound-5-Macro-A
+    - Change-Fade-Sound-6-Macro-RG
+    - Change-Fade-Sound-7-Macro-RB
+    - Change-Fade-Sound-8-Macro-RA
+    - Change-Fade-Sound-9-Macro-GB
+    - Change-Fade-Sound-10-Macro-GA
+    - Change-Fade-Sound-11-Macro-BA
+    - Change-Fade-Sound-12-Macro-RGB
+    - Change-Fade-Sound-13-Macro-RGA
+    - Change-Fade-Sound-14-Macro-RBA
+    - Change-Fade-Sound-15-Macro-GBA
+    - Change-Fade-Sound-16-Macro-RGBA
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"Change-Fade-Sound-1-Macro-OFF"})) {
+            id(vbar3_effect_mode).set_level(0.03);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-2-Macro-R"})) {
+            id(vbar3_effect_mode).set_level(0.09);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-3-Macro-G"})) {
+            id(vbar3_effect_mode).set_level(0.16);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-4-Macro-B"})) {
+            id(vbar3_effect_mode).set_level(0.22);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-5-Macro-A"})) {
+            id(vbar3_effect_mode).set_level(0.28);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-6-Macro-RG"})) {
+            id(vbar3_effect_mode).set_level(0.35);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-7-Macro-RB"})) {
+            id(vbar3_effect_mode).set_level(0.41);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-8-Macro-RA"})) {
+            id(vbar3_effect_mode).set_level(0.47);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-9-Macro-GB"})) {
+            id(vbar3_effect_mode).set_level(0.53);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-10-Macro-GA"})) {
+            id(vbar3_effect_mode).set_level(0.6);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-11-Macro-BA"})) {
+            id(vbar3_effect_mode).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-12-Macro-RGB"})) {
+            id(vbar3_effect_mode).set_level(0.72);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-13-Macro-RGA"})) {
+            id(vbar3_effect_mode).set_level(0.78);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-14-Macro-RBA"})) {
+            id(vbar3_effect_mode).set_level(0.85);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-15-Macro-GBA"})) {
+            id(vbar3_effect_mode).set_level(0.91);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-16-Macro-RGBA"})) {
+            id(vbar3_effect_mode).set_level(0.97);
           }
 
 - platform: template
@@ -401,33 +568,105 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (x.compare(std::string{"None"}) == 0) {
+          if (0 == x.compare(std::string{"None"})) {
             id(vbar4_effect_select).set_level(0);
-            auto call_level = id(vbar4_effect_level_num).make_call();
-            auto call_mode = id(vbar4_effect_mode_num).make_call();
-            call_level.set_value(0);
-            call_mode.set_value(0);
-            call_level.perform();
-            call_mode.perform();
+            id(vbar4_effect_mode).set_level(0);
+            auto call = id(vbar4_effect_level_num).make_call();
+            call.set_value(0);
+            call.perform();
           }
-          if (x.compare(std::string{"Strobing"}) == 0) {
+          if (0 == x.compare(std::string{"Strobing"})) {
             id(vbar4_effect_select).set_level(0.04);
           }
-          if (x.compare(std::string{"Color Macro"}) == 0) {
+          if (0 == x.compare(std::string{"Color Macro"})) {
             id(vbar4_effect_select).set_level(0.3);
           }
-          if (x.compare(std::string{"Color Change"}) == 0) {
+          if (0 == x.compare(std::string{"Color Change"})) {
             id(vbar4_effect_select).set_level(0.5);
           }
-          if (x.compare(std::string{"Color Fade"}) == 0) {
+          if (0 == x.compare(std::string{"Color Fade"})) {
             id(vbar4_effect_select).set_level(0.66);
           }
-          if (x.compare(std::string{"Sound Active"}) == 0) {
+          if (0 == x.compare(std::string{"Sound Active"})) {
             id(vbar4_effect_select).set_level(0.9);
             auto call = id(vbar4_effect_level_num).make_call();
             call.set_value(200);
             call.perform();
           }
+- platform: template
+  name: "VBar4 Effect Mode"
+  icon: mdi:dots-hexagon
+  optimistic: true
+  restore_value: true
+  id: vbar4_effect_mode_dropdown
+  options:
+    - Change-Fade-Sound-1-Macro-OFF
+    - Change-Fade-Sound-2-Macro-R
+    - Change-Fade-Sound-3-Macro-G
+    - Change-Fade-Sound-4-Macro-B
+    - Change-Fade-Sound-5-Macro-A
+    - Change-Fade-Sound-6-Macro-RG
+    - Change-Fade-Sound-7-Macro-RB
+    - Change-Fade-Sound-8-Macro-RA
+    - Change-Fade-Sound-9-Macro-GB
+    - Change-Fade-Sound-10-Macro-GA
+    - Change-Fade-Sound-11-Macro-BA
+    - Change-Fade-Sound-12-Macro-RGB
+    - Change-Fade-Sound-13-Macro-RGA
+    - Change-Fade-Sound-14-Macro-RBA
+    - Change-Fade-Sound-15-Macro-GBA
+    - Change-Fade-Sound-16-Macro-RGBA
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"Change-Fade-Sound-1-Macro-OFF"})) {
+            id(vbar4_effect_mode).set_level(0.03);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-2-Macro-R"})) {
+            id(vbar4_effect_mode).set_level(0.09);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-3-Macro-G"})) {
+            id(vbar4_effect_mode).set_level(0.16);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-4-Macro-B"})) {
+            id(vbar4_effect_mode).set_level(0.22);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-5-Macro-A"})) {
+            id(vbar4_effect_mode).set_level(0.28);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-6-Macro-RG"})) {
+            id(vbar4_effect_mode).set_level(0.35);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-7-Macro-RB"})) {
+            id(vbar4_effect_mode).set_level(0.41);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-8-Macro-RA"})) {
+            id(vbar4_effect_mode).set_level(0.47);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-9-Macro-GB"})) {
+            id(vbar4_effect_mode).set_level(0.53);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-10-Macro-GA"})) {
+            id(vbar4_effect_mode).set_level(0.6);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-11-Macro-BA"})) {
+            id(vbar4_effect_mode).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-12-Macro-RGB"})) {
+            id(vbar4_effect_mode).set_level(0.72);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-13-Macro-RGA"})) {
+            id(vbar4_effect_mode).set_level(0.78);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-14-Macro-RBA"})) {
+            id(vbar4_effect_mode).set_level(0.85);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-15-Macro-GBA"})) {
+            id(vbar4_effect_mode).set_level(0.91);
+          }
+          if (0 == x.compare(std::string{"Change-Fade-Sound-16-Macro-RGBA"})) {
+            id(vbar4_effect_mode).set_level(0.97);
+          }
+
 
 light:
 - platform: rgbw
