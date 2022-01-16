@@ -1,6 +1,7 @@
 # esphome-dmx512
 
-This is a DMX512 custom component for ESPHome that allows Arduino-based devices to control DMX devices via UART (this requires an RS485 module, see below). ESP32 with the IDF-framework is currently not supported.
+This is a DMX512 custom component for ESPHome that allows Arduino-based 
+devices to control DMX devices via UART (this requires an RS485 module, see below). ESP32 with the IDF-framework is currently not supported.
 
 ## Implementation
 
@@ -9,7 +10,8 @@ The implementation is based on other projects:
   * https://github.com/cupertinomiranda/esphome
   * https://github.com/jakosek/esphome/tree/dmx_no_uart
 
-It differs in that it uses the internal UART component but generates the break signal by detaching and re-attaching the GPIO pin.
+It differs in that it uses the internal UART component but generates the 
+break signal by detaching and re-attaching the GPIO pin (on ESP32).
 
 ## Important notes
 
@@ -44,20 +46,40 @@ dmx512:
   * `uart_num`: Set this to the internal ESP32 UART number. If only logging is
   configured, this should be set to 1 (default). 
   * `periodic_update`: If set to false, only state changes are transmitted and the bus is silent in between - violates the specification and may cause some dimmers to turn off
-  * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.
+  * `force_full_frames`: If set to true (default), the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.
   * `custom_mab_len`: Set a custom mark-after-break length (in uS, default 12)
   * `custom_break_len`: Set a custom break length (in uS, default 92)
   * `update_interval`: Specify a custom update interval, i.e. the minimum time between resending the current values (in ms, default 500)
 
-Outputs point to channels in the DMX universe, from 1 to 512. Some DMX fixtures can be daisy chained with XLR cables, and each one can be set to operate at a different address. When you specify the output channel in the configuration of this component, take into account that _channel (in esphome component) = address + channel (on the fixture)_. When you choose addresses for your DMX fixtures keep in mind that the next free address number on the bus that can be assigned is the _address of the previous light + the last channel number of that light_. 
+Outputs point to channels in the DMX universe, from 1 to 512. 
 
-For easeier understanding, eg. the [ADJ VBar Pak](https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8659/vbar_pak.pdf) can be used in various modes. When you have 4 of this daisy chained, if you set them up to 8-channel mode (to access all the effects) you can set the address of the first one 1, the next one to 9, the third one to 17, fourth one to 25, using the buttons on each fixture. Then in the config you'd have channels for the first one from 1 to 8, the second one from 9 to 16, third one from 17 to 24, forth one from 25 to 32. See [another example](example_4x_adj_vbar_pak.yaml) for this kind of configuration.
+Some DMX fixtures can be daisy chained with XLR cables, and each one can be set to operate at a different address. 
 
-The `output` implements float values between 0 and 100. You can use it not only for `light`, but for any component which can send data to it, moreover, it can be set from lambdas. The above example shows use cases for this, where certain outputs are used for hardware effects selection on the DMX fixture, using a `select` component, and parameters can be adjusted from `number` entities.
+When you specify the output channel in the configuration of this component, take into account that _channel (in esphome component) = address + channel (on the fixture)_. 
+
+When you choose addresses for your DMX fixtures keep in mind that the next free address number on the bus that can be assigned is the _address of the previous light + the last channel number of that light_. 
+
+
+
+For easeier understanding, eg. the [ADJ VBar Pak](https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8659/vbar_pak.pdf) can be used in various modes. 
+
+When you have 4 of these daisy chained, if you set them up to 8-channel mode (to access all the effects) you can set the address of the first one to 1, the next one to 9, the third one to 17, fourth one to 25, using the buttons on each fixture. 
+
+Then in the config you'd have channels for the first one from 1 to 8, the second one from 9 to 16, third one from 17 to 24, forth one from 25 to 32. 
+
+See [another example](example_4x_adj_vbar_pak.yaml) for this kind of configuration.
+
+
+
+The `output` implements float values between 0 and 100. 
+
+You can use it not only for `light`, but for any component which can send data to it, moreover, it can be set from lambdas. 
+
+The above example shows use cases for this, where certain outputs are used for hardware effects selection on the DMX fixture, using a `select` component, and parameters can be adjusted from `number` entities.
 
 ## Wiring
 
-You can use an RS485-TTL adapter module to connect your ESP devce with the DMX bus.
+You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus.
 
 ![MAX485-M](https://user-images.githubusercontent.com/1550668/149642143-7e13fb00-29fd-4e9d-8f11-6b4a2a2bd0ba.png)
 

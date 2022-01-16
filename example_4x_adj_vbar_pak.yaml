@@ -5,15 +5,14 @@
 uart:
   id: uart_bus
   baud_rate: 250000
-  tx_pin: 2 #ESP8266
+  tx_pin: GPIO2 #ESP8266
   stop_bits: 2
 
 dmx512:
   id: dmx
   uart_id: uart_bus
-  tx_pin: 2 #ESP8266
+  tx_pin: GPIO2 #ESP8266
   uart_num: 1
-  force_full_frames: true
 
 output:
 - platform: dmx512
@@ -148,7 +147,6 @@ output:
   universe: dmx
   id: vbar4_effect_mode
 
-
 number:
 - platform: template
   name: "VBar1 Effect Level"
@@ -258,8 +256,6 @@ number:
     - lambda: |-
         id(vbar4_effect_mode).set_level(x / 255);
 
-
-
 select:
 - platform: template
   name: VBar1 Effect
@@ -276,7 +272,7 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (0 == x.compare(std::string{"None"})) {
+          if (x.compare(std::string{"None"}) == 0) {
             id(vbar1_effect_select).set_level(0);
             auto call_level = id(vbar1_effect_level_num).make_call();
             auto call_mode = id(vbar1_effect_mode_num).make_call();
@@ -285,19 +281,19 @@ select:
             call_level.perform();
             call_mode.perform();
           }
-          if (0 == x.compare(std::string{"Strobing"})) {
+          if (x.compare(std::string{"Strobing"}) == 0) {
             id(vbar1_effect_select).set_level(0.04);
           }
-          if (0 == x.compare(std::string{"Color Macro"})) {
+          if (x.compare(std::string{"Color Macro"}) == 0) {
             id(vbar1_effect_select).set_level(0.3);
           }
-          if (0 == x.compare(std::string{"Color Change"})) {
+          if (x.compare(std::string{"Color Change"}) == 0) {
             id(vbar1_effect_select).set_level(0.5);
           }
-          if (0 == x.compare(std::string{"Color Fade"})) {
+          if (x.compare(std::string{"Color Fade"}) == 0) {
             id(vbar1_effect_select).set_level(0.66);
           }
-          if (0 == x.compare(std::string{"Sound Active"})) {
+          if (x.compare(std::string{"Sound Active"}) == 0) {
             id(vbar1_effect_select).set_level(0.9);
             auto call = id(vbar1_effect_level_num).make_call();
             call.set_value(200);
@@ -319,7 +315,7 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (0 == x.compare(std::string{"None"})) {
+          if (x.compare(std::string{"None"}) == 0) {
             id(vbar2_effect_select).set_level(0);
             auto call_level = id(vbar2_effect_level_num).make_call();
             auto call_mode = id(vbar2_effect_mode_num).make_call();
@@ -328,19 +324,19 @@ select:
             call_level.perform();
             call_mode.perform();
           }
-          if (0 == x.compare(std::string{"Strobing"})) {
+          if (x.compare(std::string{"Strobing"}) == 0) {
             id(vbar2_effect_select).set_level(0.04);
           }
-          if (0 == x.compare(std::string{"Color Macro"})) {
+          if (x.compare(std::string{"Color Macro"}) == 0) {
             id(vbar2_effect_select).set_level(0.3);
           }
-          if (0 == x.compare(std::string{"Color Change"})) {
+          if (x.compare(std::string{"Color Change"}) == 0) {
             id(vbar2_effect_select).set_level(0.5);
           }
-          if (0 == x.compare(std::string{"Color Fade"})) {
+          if (x.compare(std::string{"Color Fade"}) == 0) {
             id(vbar2_effect_select).set_level(0.66);
           }
-          if (0 == x.compare(std::string{"Sound Active"})) {
+          if (x.compare(std::string{"Sound Active"}) == 0) {
             id(vbar2_effect_select).set_level(0.9);
             auto call = id(vbar2_effect_level_num).make_call();
             call.set_value(200);
@@ -362,7 +358,7 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (0 == x.compare(std::string{"None"})) {
+          if (x.compare(std::string{"None"}) == 0) {
             id(vbar3_effect_select).set_level(0);
             auto call_level = id(vbar3_effect_level_num).make_call();
             auto call_mode = id(vbar3_effect_mode_num).make_call();
@@ -371,19 +367,19 @@ select:
             call_level.perform();
             call_mode.perform();
           }
-          if (0 == x.compare(std::string{"Strobing"})) {
+          if (x.compare(std::string{"Strobing"}) == 0) {
             id(vbar3_effect_select).set_level(0.04);
           }
-          if (0 == x.compare(std::string{"Color Macro"})) {
+          if (x.compare(std::string{"Color Macro"}) == 0) {
             id(vbar3_effect_select).set_level(0.3);
           }
-          if (0 == x.compare(std::string{"Color Change"})) {
+          if (x.compare(std::string{"Color Change"}) == 0) {
             id(vbar3_effect_select).set_level(0.5);
           }
-          if (0 == x.compare(std::string{"Color Fade"})) {
+          if (x.compare(std::string{"Color Fade"}) == 0) {
             id(vbar3_effect_select).set_level(0.66);
           }
-          if (0 == x.compare(std::string{"Sound Active"})) {
+          if (x.compare(std::string{"Sound Active"}) == 0) {
             id(vbar3_effect_select).set_level(0.9);
             auto call = id(vbar3_effect_level_num).make_call();
             call.set_value(200);
@@ -405,7 +401,7 @@ select:
     - "Strobing"
   set_action:
     - lambda: |-
-          if (0 == x.compare(std::string{"None"})) {
+          if (x.compare(std::string{"None"}) == 0) {
             id(vbar4_effect_select).set_level(0);
             auto call_level = id(vbar4_effect_level_num).make_call();
             auto call_mode = id(vbar4_effect_mode_num).make_call();
@@ -414,25 +410,24 @@ select:
             call_level.perform();
             call_mode.perform();
           }
-          if (0 == x.compare(std::string{"Strobing"})) {
+          if (x.compare(std::string{"Strobing"}) == 0) {
             id(vbar4_effect_select).set_level(0.04);
           }
-          if (0 == x.compare(std::string{"Color Macro"})) {
+          if (x.compare(std::string{"Color Macro"}) == 0) {
             id(vbar4_effect_select).set_level(0.3);
           }
-          if (0 == x.compare(std::string{"Color Change"})) {
+          if (x.compare(std::string{"Color Change"}) == 0) {
             id(vbar4_effect_select).set_level(0.5);
           }
-          if (0 == x.compare(std::string{"Color Fade"})) {
+          if (x.compare(std::string{"Color Fade"}) == 0) {
             id(vbar4_effect_select).set_level(0.66);
           }
-          if (0 == x.compare(std::string{"Sound Active"})) {
+          if (x.compare(std::string{"Sound Active"}) == 0) {
             id(vbar4_effect_select).set_level(0.9);
             auto call = id(vbar4_effect_level_num).make_call();
             call.set_value(200);
             call.perform();
           }
-
 
 light:
 - platform: rgbw
