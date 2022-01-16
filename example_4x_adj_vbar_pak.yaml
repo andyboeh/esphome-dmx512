@@ -1,0 +1,504 @@
+# Example configuration for four ADJ VBar Pak fixtures daisy chained with XLR cables
+# DMX description: https://d295jznhem2tn9.cloudfront.net/ItemRelatedFiles/8659/vbar_pak.pdf
+# Fixture configuration set for DMX 8 channel mode
+
+uart:
+  id: uart_bus
+  baud_rate: 250000
+  tx_pin: 2 #ESP8266
+  stop_bits: 2
+
+dmx512:
+  id: dmx
+  uart_id: uart_bus
+  tx_pin: 2 #ESP8266
+  uart_num: 1
+  force_full_frames: true
+
+output:
+- platform: dmx512
+  channel: 1
+  universe: dmx
+  id: vbar1_red
+- platform: dmx512
+  channel: 2
+  universe: dmx
+  id: vbar1_green
+- platform: dmx512
+  channel: 3
+  universe: dmx
+  id: vbar1_blue
+- platform: dmx512
+  channel: 4
+  universe: dmx
+  id: vbar1_amber
+- platform: dmx512
+  channel: 5
+  universe: dmx
+  id: vbar1_master
+- platform: dmx512
+  channel: 6
+  universe: dmx
+  id: vbar1_effect_level
+- platform: dmx512
+  channel: 7
+  universe: dmx
+  id: vbar1_effect_select
+- platform: dmx512
+  channel: 8
+  universe: dmx
+  id: vbar1_effect_mode
+
+- platform: dmx512
+  channel: 9
+  universe: dmx
+  id: vbar2_red
+- platform: dmx512
+  channel: 10
+  universe: dmx
+  id: vbar2_green
+- platform: dmx512
+  channel: 11
+  universe: dmx
+  id: vbar2_blue
+- platform: dmx512
+  channel: 12
+  universe: dmx
+  id: vbar2_amber
+- platform: dmx512
+  channel: 13
+  universe: dmx
+  id: vbar2_master
+- platform: dmx512
+  channel: 14
+  universe: dmx
+  id: vbar2_effect_level
+- platform: dmx512
+  channel: 15
+  universe: dmx
+  id: vbar2_effect_select
+- platform: dmx512
+  channel: 16
+  universe: dmx
+  id: vbar2_effect_mode
+
+- platform: dmx512
+  channel: 17
+  universe: dmx
+  id: vbar3_red
+- platform: dmx512
+  channel: 18
+  universe: dmx
+  id: vbar3_green
+- platform: dmx512
+  channel: 19
+  universe: dmx
+  id: vbar3_blue
+- platform: dmx512
+  channel: 20
+  universe: dmx
+  id: vbar3_amber
+- platform: dmx512
+  channel: 21
+  universe: dmx
+  id: vbar3_master
+- platform: dmx512
+  channel: 22
+  universe: dmx
+  id: vbar3_effect_level
+- platform: dmx512
+  channel: 23
+  universe: dmx
+  id: vbar3_effect_select
+- platform: dmx512
+  channel: 24
+  universe: dmx
+  id: vbar3_effect_mode
+
+- platform: dmx512
+  channel: 25
+  universe: dmx
+  id: vbar4_red
+- platform: dmx512
+  channel: 26
+  universe: dmx
+  id: vbar4_green
+- platform: dmx512
+  channel: 27
+  universe: dmx
+  id: vbar4_blue
+- platform: dmx512
+  channel: 28
+  universe: dmx
+  id: vbar4_amber
+- platform: dmx512
+  channel: 29
+  universe: dmx
+  id: vbar4_master
+- platform: dmx512
+  channel: 30
+  universe: dmx
+  id: vbar4_effect_level
+- platform: dmx512
+  channel: 31
+  universe: dmx
+  id: vbar4_effect_select
+- platform: dmx512
+  channel: 32
+  universe: dmx
+  id: vbar4_effect_mode
+
+
+number:
+- platform: template
+  name: "VBar1 Effect Level"
+  icon: mdi:flower-pollen-outline
+  id: vbar1_effect_level_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+#  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar1_effect_level).set_level(x / 255);
+- platform: template
+  name: "VBar1 Effect Mode"
+  icon: mdi:dots-hexagon
+  id: vbar1_effect_mode_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar1_effect_mode).set_level(x / 255);
+
+- platform: template
+  name: "VBar2 Effect Level"
+  icon: mdi:flower-pollen-outline
+  id: vbar2_effect_level_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+#  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar2_effect_level).set_level(x / 255);
+- platform: template
+  name: "VBar2 Effect Mode"
+  icon: mdi:dots-hexagon
+  id: vbar2_effect_mode_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar2_effect_mode).set_level(x / 255);
+
+- platform: template
+  name: "VBar3 Effect Level"
+  icon: mdi:flower-pollen-outline
+  id: vbar3_effect_level_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+#  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar3_effect_level).set_level(x / 255);
+- platform: template
+  name: "VBar3 Effect Mode"
+  icon: mdi:dots-hexagon
+  id: vbar3_effect_mode_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar3_effect_mode).set_level(x / 255);
+
+- platform: template
+  name: "VBar4 Effect Level"
+  icon: mdi:flower-pollen-outline
+  id: vbar4_effect_level_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+#  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar4_effect_level).set_level(x / 255);
+- platform: template
+  name: "VBar4 Effect Mode"
+  icon: mdi:dots-hexagon
+  id: vbar4_effect_mode_num
+  optimistic: true
+  min_value: 0
+  max_value: 255
+  step: 1
+  mode: box
+  restore_value: true
+  set_action:
+    - lambda: |-
+        id(vbar4_effect_mode).set_level(x / 255);
+
+
+
+select:
+- platform: template
+  name: VBar1 Effect
+  optimistic: true
+  restore_value: true
+  icon: mdi:pan
+  id: vbar1_effect_select_dropdown
+  options:
+    - "None"
+    - "Color Macro"
+    - "Color Change"
+    - "Color Fade"
+    - "Sound Active"
+    - "Strobing"
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"None"})) {
+            id(vbar1_effect_select).set_level(0);
+            auto call_level = id(vbar1_effect_level_num).make_call();
+            auto call_mode = id(vbar1_effect_mode_num).make_call();
+            call_level.set_value(0);
+            call_mode.set_value(0);
+            call_level.perform();
+            call_mode.perform();
+          }
+          if (0 == x.compare(std::string{"Strobing"})) {
+            id(vbar1_effect_select).set_level(0.04);
+          }
+          if (0 == x.compare(std::string{"Color Macro"})) {
+            id(vbar1_effect_select).set_level(0.3);
+          }
+          if (0 == x.compare(std::string{"Color Change"})) {
+            id(vbar1_effect_select).set_level(0.5);
+          }
+          if (0 == x.compare(std::string{"Color Fade"})) {
+            id(vbar1_effect_select).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Sound Active"})) {
+            id(vbar1_effect_select).set_level(0.9);
+            auto call = id(vbar1_effect_level_num).make_call();
+            call.set_value(200);
+            call.perform();
+          }
+
+- platform: template
+  name: VBar2 Effect
+  optimistic: true
+  restore_value: true
+  icon: mdi:pan
+  id: vbar2_effect_select_dropdown
+  options:
+    - "None"
+    - "Color Macro"
+    - "Color Change"
+    - "Color Fade"
+    - "Sound Active"
+    - "Strobing"
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"None"})) {
+            id(vbar2_effect_select).set_level(0);
+            auto call_level = id(vbar2_effect_level_num).make_call();
+            auto call_mode = id(vbar2_effect_mode_num).make_call();
+            call_level.set_value(0);
+            call_mode.set_value(0);
+            call_level.perform();
+            call_mode.perform();
+          }
+          if (0 == x.compare(std::string{"Strobing"})) {
+            id(vbar2_effect_select).set_level(0.04);
+          }
+          if (0 == x.compare(std::string{"Color Macro"})) {
+            id(vbar2_effect_select).set_level(0.3);
+          }
+          if (0 == x.compare(std::string{"Color Change"})) {
+            id(vbar2_effect_select).set_level(0.5);
+          }
+          if (0 == x.compare(std::string{"Color Fade"})) {
+            id(vbar2_effect_select).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Sound Active"})) {
+            id(vbar2_effect_select).set_level(0.9);
+            auto call = id(vbar2_effect_level_num).make_call();
+            call.set_value(200);
+            call.perform();
+          }
+
+- platform: template
+  name: VBar3 Effect
+  optimistic: true
+  restore_value: true
+  icon: mdi:pan
+  id: vbar3_effect_select_dropdown
+  options:
+    - "None"
+    - "Color Macro"
+    - "Color Change"
+    - "Color Fade"
+    - "Sound Active"
+    - "Strobing"
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"None"})) {
+            id(vbar3_effect_select).set_level(0);
+            auto call_level = id(vbar3_effect_level_num).make_call();
+            auto call_mode = id(vbar3_effect_mode_num).make_call();
+            call_level.set_value(0);
+            call_mode.set_value(0);
+            call_level.perform();
+            call_mode.perform();
+          }
+          if (0 == x.compare(std::string{"Strobing"})) {
+            id(vbar3_effect_select).set_level(0.04);
+          }
+          if (0 == x.compare(std::string{"Color Macro"})) {
+            id(vbar3_effect_select).set_level(0.3);
+          }
+          if (0 == x.compare(std::string{"Color Change"})) {
+            id(vbar3_effect_select).set_level(0.5);
+          }
+          if (0 == x.compare(std::string{"Color Fade"})) {
+            id(vbar3_effect_select).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Sound Active"})) {
+            id(vbar3_effect_select).set_level(0.9);
+            auto call = id(vbar3_effect_level_num).make_call();
+            call.set_value(200);
+            call.perform();
+          }
+
+- platform: template
+  name: VBar4 Effect
+  optimistic: true
+  restore_value: true
+  icon: mdi:pan
+  id: vbar4_effect_select_dropdown
+  options:
+    - "None"
+    - "Color Macro"
+    - "Color Change"
+    - "Color Fade"
+    - "Sound Active"
+    - "Strobing"
+  set_action:
+    - lambda: |-
+          if (0 == x.compare(std::string{"None"})) {
+            id(vbar4_effect_select).set_level(0);
+            auto call_level = id(vbar4_effect_level_num).make_call();
+            auto call_mode = id(vbar4_effect_mode_num).make_call();
+            call_level.set_value(0);
+            call_mode.set_value(0);
+            call_level.perform();
+            call_mode.perform();
+          }
+          if (0 == x.compare(std::string{"Strobing"})) {
+            id(vbar4_effect_select).set_level(0.04);
+          }
+          if (0 == x.compare(std::string{"Color Macro"})) {
+            id(vbar4_effect_select).set_level(0.3);
+          }
+          if (0 == x.compare(std::string{"Color Change"})) {
+            id(vbar4_effect_select).set_level(0.5);
+          }
+          if (0 == x.compare(std::string{"Color Fade"})) {
+            id(vbar4_effect_select).set_level(0.66);
+          }
+          if (0 == x.compare(std::string{"Sound Active"})) {
+            id(vbar4_effect_select).set_level(0.9);
+            auto call = id(vbar4_effect_level_num).make_call();
+            call.set_value(200);
+            call.perform();
+          }
+
+
+light:
+- platform: rgbw
+  name: "VBar1"
+  red: vbar1_red
+  green: vbar1_green
+  blue: vbar1_blue
+  white: vbar1_amber
+  icon: mdi:spotlight
+  default_transition_length: 0s
+  color_interlock: false
+  restore_mode: RESTORE_DEFAULT_ON
+- platform: monochromatic
+  name: "VBar1 Dimmer"
+  output: vbar1_master
+  icon: mdi:blur
+  default_transition_length: 2s
+  restore_mode: RESTORE_DEFAULT_ON
+
+- platform: rgbw
+  name: "VBar2"
+  red: vbar2_red
+  green: vbar2_green
+  blue: vbar2_blue
+  white: vbar2_amber
+  icon: mdi:spotlight
+  default_transition_length: 0s
+  color_interlock: false
+  restore_mode: RESTORE_DEFAULT_ON
+- platform: monochromatic
+  name: "VBar2 Dimmer"
+  output: vbar2_master
+  icon: mdi:blur
+  default_transition_length: 2s
+  restore_mode: RESTORE_DEFAULT_ON
+
+- platform: rgbw
+  name: "VBar3"
+  red: vbar3_red
+  green: vbar3_green
+  blue: vbar3_blue
+  white: vbar3_amber
+  icon: mdi:spotlight
+  default_transition_length: 0s
+  color_interlock: false
+  restore_mode: RESTORE_DEFAULT_ON
+- platform: monochromatic
+  name: "VBar3 Dimmer"
+  output: vbar3_master
+  icon: mdi:blur
+  default_transition_length: 2s
+  restore_mode: RESTORE_DEFAULT_ON
+
+- platform: rgbw
+  name: "VBar4"
+  red: vbar4_red
+  green: vbar4_green
+  blue: vbar4_blue
+  white: vbar4_amber
+  icon: mdi:spotlight
+  default_transition_length: 0s
+  color_interlock: false
+  restore_mode: RESTORE_DEFAULT_ON
+- platform: monochromatic
+  name: "VBar4 Dimmer"
+  output: vbar4_master
+  icon: mdi:blur
+  default_transition_length: 2s
+  restore_mode: RESTORE_DEFAULT_ON
