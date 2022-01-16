@@ -30,7 +30,7 @@ class DMX512 : public Component {
 
   void set_enable_pin(GPIOPin *pin_enable) { pin_enable_ = pin_enable; }
   
-  void set_uart_tx_pin(int tx_pin) { tx_pin_ = tx_pin; }
+  void set_uart_tx_pin(InternalGPIOPin *tx_pin) { tx_pin_ = tx_pin; }
   
   void set_channel_used(uint16_t channel);
 
@@ -57,7 +57,7 @@ class DMX512 : public Component {
   uint32_t last_dmx512_transmission_{0};
   uint8_t device_values_[DMX_MSG_SIZE];
   int uart_idx_{0};
-  int tx_pin_{0};
+  InternalGPIOPin *tx_pin_{nullptr};
   int update_interval_{UPDATE_INTERVAL_MS};
   int mab_len_{DMX_MAB_LEN};
   int break_len_{DMX_BREAK_LEN};

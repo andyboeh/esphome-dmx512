@@ -39,7 +39,7 @@ def _declare_type(value):
 CONFIG_SCHEMA = cv.Schema({
     cv.GenerateID(): _declare_type,
     cv.Optional(CONF_ENABLE_PIN): pins.gpio_output_pin_schema,
-    cv.Optional(CONF_TX_PIN, default=5): cv.int_range(min=0,max=39),
+    cv.Optional(CONF_TX_PIN, default=5): pins.internal_gpio_output_pin_schema,
     cv.Optional(CONF_UART_NUM, default=1): cv.int_range(min=0, max=UART_MAX),
     cv.Optional(CONF_PERIODIC_UPDATE, default=True): cv.boolean,
     cv.Optional(CONF_FORCE_FULL_FRAMES, default=False): cv.boolean,
@@ -58,7 +58,10 @@ async def to_code(config):
         enable = await cg.gpio_pin_expression(config[CONF_ENABLE_PIN])
         cg.add(var.set_enable_pin(enable))
 
-    cg.add(var.set_uart_tx_pin(config[CONF_TX_PIN]))
+    if CONF_TX_PIN in config:
+        tx_pin = await cg.gpio_pin_expression(config[CONF_TX_PIN])
+        cg.add(var.set_uart_tx_pin(tx_pin))
+
     cg.add(var.set_uart_num(config[CONF_UART_NUM]))
     cg.add(var.set_periodic_update(config[CONF_PERIODIC_UPDATE]))
     cg.add(var.set_force_full_frames(config[CONF_FORCE_FULL_FRAMES]))
