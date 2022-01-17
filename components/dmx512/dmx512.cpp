@@ -25,6 +25,7 @@ void DMX512::loop() {
     this->uart_->write_array(this->device_values_, this->max_chan_ + 1);
     this->update_ = false;
     this->last_update_ = millis();
+    this->uart_->flush();
   }
 }
 
