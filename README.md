@@ -88,7 +88,7 @@ You can use an RS485-TTL adapter module to connect your ESP device with the DMX 
 For this adapter, use the wiring below:
 
 ```
-MAX485-M VCC     -> ESP +5V
+MAX485-M VCC     -> ESP +3.3V
 MAX485-M GND     -> ESP GND
 MAX485-M RE & DE -> ESP +3.3V
 MAX485-M DI      -> ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
@@ -97,5 +97,5 @@ MAX485-M B       -> XLR 2 (DMX -)
 MAX485-M GND     -> XLR 1 (DMX GND)
 ```
 
-Don't forget about 120Ohm termination resistors. If your fixture has DMX IN and OUT ports, on the OUT port or the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on MAX485-M, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain.     
+Don't forget about 120Ohm termination resistors. If your fixture has DMX IN and OUT ports, on the OUT port of the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on MAX485-M, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain.     
 Using good quality 120Ohm impedance cables, DMX lines can be run a maximum distance of approximately 1000 metres. With CAT5 cable DMX lines are safe until approximately 300 meters.
