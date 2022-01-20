@@ -88,7 +88,7 @@ You can use an RS485-TTL adapter module to connect your ESP device with the DMX 
 For this adapter, use the wiring below:
 
 ```
-MAX485-M VCC     -> ESP +3.3V
+MAX485-M VCC     -> ESP +5V
 MAX485-M GND     -> ESP GND
 MAX485-M RE & DE -> ESP +3.3V
 MAX485-M DI      -> ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
