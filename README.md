@@ -77,6 +77,8 @@ You can use it not only for `light`, but for any component which can send data t
 
 The above example shows use cases for this, where certain outputs are used for hardware effects selection on the DMX fixture, using a `select` component, and parameters can be adjusted from `number` entities.
 
+_Tip:_ Usage of `gamma_correct: 0` in the lights configuration is likely required for most fixtures, as the gamma compensation is usually already done in their hardware. This can be observed when, without this setting set to 0, dimming to around 10% will actually turn the lights off. ESPHome has `gamma_correct` set to `2.8` [by default](https://esphome.io/components/light/index.html).
+
 ## Wiring
 
 You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus.
