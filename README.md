@@ -61,6 +61,8 @@ The `output` implements float values between 0 and 100. You can use it not only 
 
 The above example shows use cases for this, where certain outputs are used for hardware effects selection on the DMX fixture, using a `select` component, and parameters can be adjusted from `number` entities.
 
+_Tip:_ Usage of `gamma_correct: 0` in the lights configuration is likely required for most fixtures, as the gamma compensation is usually already done in their hardware. This can be observed when, without this setting set to 0, dimming to around 10% will actually turn the lights off. ESPHome has `gamma_correct` set to `2.8` [by default](https://esphome.io/components/light/index.html).
+
 ## Wiring
 
 You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus. Attention: The below module is actually a 5V module, but it seems to work fine even if powered from 3.3V. However, there is no guarantee the MAX485 works at 3.3V. To be on the safe side, Use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!
@@ -80,6 +82,7 @@ MAX485-M B       -> XLR 2 (DMX -)
 MAX485-M GND     -> XLR 1 (DMX GND)
 ```
 
+
 The RE pin can be left unconnected, since we do not want to receive anything from the bus. For this module, you could even leave DE unconnected since there is a pull-up resistor on the board.
 
 Don't forget about 120Ohm termination resistors (the specific module above already has the 120Ohm resistor as R7 on the board). If your fixture has DMX IN and OUT ports, on the OUT port of the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on MAX485-M, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain.
@@ -88,6 +91,7 @@ Using good quality 120Ohm impedance cables, DMX lines can be run a maximum dista
 
 You can also tie the DE pin to a GPIO of the ESP. Usually, you would configure this GPIO as `enable_pin` in the DMX component to activate the module automatically. 
 If you want to have a "mute" switch instead, define it as a switch instead and do not configure `enable_pin` in the DMX component:
+
 
 ```
 switch:
@@ -98,3 +102,4 @@ switch:
     number: GPIO13
     inverted: true
 ```
+
