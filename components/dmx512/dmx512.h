@@ -9,6 +9,7 @@
 #define DMX_MSG_SIZE        DMX_MAX_CHANNEL + 1
 #define DMX_BREAK_LEN       92
 #define DMX_MAB_LEN         12
+#define DMX_MIN_INTERVAL_MS 23
 
 namespace esphome {
 namespace dmx512 {

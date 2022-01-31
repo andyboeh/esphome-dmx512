@@ -8,11 +8,17 @@ static const char *TAG = "dmx512";
 
 void DMX512::loop() {
   bool update = false;
+  // this->update_ is true if something has changed
+  // Otherwise, an update needs to be triggered periodically, if the
+  // periodic update option is set
   if(this->update_ || ((this->last_update_ + this->update_interval_ < millis()) && this->periodic_update_)) {
-    update = true;
+    // Force the refresh rate to be within the spec
+    // Flushing should not be needed (we do it anyway)
+    if((this->last_update_ + DMX_MIN_INTERVAL_MS) < millis()) {
+      update = true;
+    }
   }
   if(update) {
-    ESP_LOGD(TAG, "update");
     this->uart_->flush();
     this->sendBreak();
     this->device_values_[0] = 0;
