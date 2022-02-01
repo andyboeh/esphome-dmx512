@@ -11,10 +11,10 @@ void DMX512::loop() {
   // this->update_ is true if something has changed
   // Otherwise, an update needs to be triggered periodically, if the
   // periodic update option is set
-  if(this->update_ || ((this->last_update_ + this->update_interval_ < millis()) && this->periodic_update_)) {
+  if(this->update_ || (((millis() - this->last_update_) > this->update_interval_) && this->periodic_update_)) {
     // Force the refresh rate to be within the spec
     // Flushing should not be needed (we do it anyway)
-    if((this->last_update_ + DMX_MIN_INTERVAL_MS) < millis()) {
+    if((millis() - this->last_update_) > DMX_MIN_INTERVAL_MS) {
       update = true;
     }
   }
