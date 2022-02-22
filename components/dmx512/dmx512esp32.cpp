@@ -11,10 +11,10 @@ static const char *TAG = "dmx512";
 void DMX512ESP32::sendBreak() {
   uint8_t num = this->tx_pin_->get_pin();
   pinMatrixOutDetach(num, false, false);
-  pinMode(num, OUTPUT);
-  digitalWrite(num, LOW);
+  pinMode(num, OUTPUT); // NOLINT
+  digitalWrite(num, LOW); // NOLINT
   delayMicroseconds(this->break_len_);
-  digitalWrite(num, HIGH);
+  digitalWrite(num, HIGH); // NOLINT
   delayMicroseconds(this->mab_len_);
   pinMatrixOutAttach(num, this->uart_idx_, false, false);
 }
