@@ -22,6 +22,8 @@ def _declare_type(value):
     if CORE.is_esp32:
         if CORE.using_arduino:
             return cv.use_id(dmx512.DMX512ESP32)(value)
+        elif CORE.using_esp_idf:
+            return cv.use_id(dmx512.DMX512ESP32IDF)(value)
     elif CORE.is_esp8266:
         return cv.use_id(dmx512.DMX512ESP8266)(value)
     raise NotImplementedError

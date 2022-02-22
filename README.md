@@ -1,6 +1,6 @@
 # esphome-dmx512
 
-This is a DMX512 custom component for ESPHome that allows Arduino-based devices to control DMX devices via UART (this requires an RS485 module, see below). ESP32 with the IDF-framework is currently not supported.
+This is a DMX512 custom component for ESPHome that allows Arduino-based devices to control DMX devices via UART (this requires an RS485 module, see below).
 
 ## Implementation
 
@@ -65,11 +65,9 @@ _Tip:_ Usage of `gamma_correct: 0` in the lights configuration is likely require
 
 ## Wiring
 
-You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus. Attention: The below module is actually a 5V module, but it seems to work fine even if powered from 3.3V. However, there is no guarantee the MAX485 works at 3.3V. To be on the safe side, Use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!
+You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus. Attention: Some modules are actually 5V modules, but seem to work fine even if powered from 3.3V. However, there is no guarantee the MAX485 works at 3.3V. To be on the safe side, Use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!
 
-![MAX485-M](https://user-images.githubusercontent.com/1550668/149642143-7e13fb00-29fd-4e9d-8f11-6b4a2a2bd0ba.png)
-
-For this adapter, use the wiring below:
+For [this adapter](https://community.home-assistant.io/t/modbus-with-max-485-ttl-to-rs-485-converter-module/176540), use the wiring below:
 
 ```
 MAX485-M VCC     -> ESP +3.3V
