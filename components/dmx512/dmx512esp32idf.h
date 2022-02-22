@@ -11,7 +11,7 @@ class DMX512ESP32IDF : public DMX512 {
  public:
   DMX512ESP32IDF() = default;
 
-  void sendBreak() override;
+  void send_break() override;
 
   void set_uart_num(int num) override {
     this->uart_idx_ = num;

@@ -12,7 +12,7 @@ class DMX512ESP32 : public DMX512 {
  public:
   DMX512ESP32() = default;
 
-  void sendBreak() override;
+  void send_break() override;
 
   void set_uart_num(int num) override {
     if(num == 0) {

@@ -8,7 +8,7 @@ namespace dmx512 {
 
 static const char *TAG = "dmx512";
 
-void DMX512ESP32::sendBreak() {
+void DMX512ESP32::send_break() {
   uint8_t num = this->tx_pin_->get_pin();
   pinMatrixOutDetach(num, false, false);
   pinMode(num, OUTPUT); // NOLINT

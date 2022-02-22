@@ -5,6 +5,8 @@ from esphome.components import uart
 from esphome.const import CONF_ID, CONF_TX_PIN, CONF_ENABLE_PIN, CONF_UPDATE_INTERVAL
 from esphome.core import CORE
 
+CODEOWNERS = ['@andyboeh']
+
 DEPENDENCIES = ['uart']
 MULTI_CONF = True
 

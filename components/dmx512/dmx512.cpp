@@ -20,7 +20,7 @@ void DMX512::loop() {
   }
   if(update) {
     this->uart_->flush();
-    this->sendBreak();
+    this->send_break();
     this->device_values_[0] = 0;
     this->uart_->write_array(this->device_values_, this->max_chan_ + 1);
     this->update_ = false;

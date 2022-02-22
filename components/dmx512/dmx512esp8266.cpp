@@ -9,7 +9,7 @@ namespace dmx512 {
 
 static const char *TAG = "dmx512";
 
-void DMX512ESP8266::sendBreak() {
+void DMX512ESP8266::send_break() {
     SET_PERI_REG_MASK(UART_CONF0(this->uart_idx_), UART_TXD_BRK);
     delayMicroseconds(this->break_len_);
     CLEAR_PERI_REG_MASK(UART_CONF0(this->uart_idx_), UART_TXD_BRK);

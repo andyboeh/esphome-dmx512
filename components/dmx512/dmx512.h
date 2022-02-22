@@ -21,13 +21,13 @@ class DMX512 : public Component {
   DMX512() = default;
   void set_uart_parent(esphome::uart::UARTComponent *parent) { this->uart_ = parent; }
 
-  void setup();
+  void setup() override;
 
   void loop() override;
 
   void dump_config() override;
   
-  virtual void sendBreak() = 0;
+  virtual void send_break() = 0;
 
   void set_enable_pin(GPIOPin *pin_enable) { pin_enable_ = pin_enable; }
   
@@ -66,7 +66,7 @@ class DMX512 : public Component {
   bool update_{true};
   bool periodic_update_{true};
   bool force_full_frames_{false};
-  unsigned long last_update_{0};
+  uint32_t last_update_{0};
   GPIOPin *pin_enable_{nullptr};
 };
 
@@ -74,7 +74,7 @@ class DMX512Output : public output::FloatOutput, public Component {
 public:
   void set_universe(DMX512 *universe) { this->universe_ = universe; }
   void set_channel(uint16_t channel);
-  void write_state(float state);
+  void write_state(float state) override;
 
 protected:
   uint16_t channel_{0};
