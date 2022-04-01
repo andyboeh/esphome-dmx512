@@ -63,6 +63,33 @@ The above example shows use cases for this, where certain outputs are used for h
 
 _Tip:_ Usage of `gamma_correct: 0` in the lights configuration is likely required for most fixtures, as the gamma compensation is usually already done in their hardware. This can be observed when, without this setting set to 0, dimming to around 10% will actually turn the lights off. ESPHome has `gamma_correct` set to `2.8` [by default](https://esphome.io/components/light/index.html).
 
+## 16 bit outputs
+
+Some fixtures support 16 bit outputs. Usually, two adjacent DMX channels are used for this. You can achieve such an effect by creating a `template`-output and using a lambda function for writing the state to your outputs. The example below uses channel 1 and 2 for a combined 16 bit output:
+
+```
+output:
+- platform: dmx512
+  channel: 1
+  universe: dmx
+  id: coarse_red
+- platform: dmx512
+  channel: 2
+  universe: dmx
+  id: fine_red
+- platform: template
+  id: red_output
+  type: float
+  min_power: 0.01
+  write_action:
+    - lambda: |-
+        int lvl = static_cast<int>(state*65535.0);
+        uint8_t low = lvl & 0xff;
+        uint8_t high = (lvl >> 8);
+        id(coarse_red).set_level(high/255.0);
+        id(fine_red).set_level(low/255.0);
+```
+
 ## Wiring
 
 You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus. Attention: Some modules are actually 5V modules, but seem to work fine even if powered from 3.3V. However, there is no guarantee the MAX485 works at 3.3V. To be on the safe side, Use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!
