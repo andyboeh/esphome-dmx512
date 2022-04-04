@@ -63,6 +63,7 @@ void DMX512Output::set_channel(uint16_t channel) {
 }
 
 void DMX512Output::write_state(float state) {
+  this->state = state;
   uint16_t value = state * 0xffff;
   if(this->universe_)
     this->universe_->write_channel(this->channel_, (value >> 8));
