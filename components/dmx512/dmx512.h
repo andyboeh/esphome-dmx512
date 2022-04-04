@@ -75,6 +75,7 @@ public:
   void set_universe(DMX512 *universe) { this->universe_ = universe; }
   void set_channel(uint16_t channel);
   void write_state(float state) override;
+  float state;
 
 protected:
   uint16_t channel_{0};
