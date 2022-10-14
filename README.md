@@ -92,31 +92,48 @@ output:
 
 ## Wiring
 
-You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus. Attention: Some modules are actually 5V modules, but seem to work fine even if powered from 3.3V. However, there is no guarantee the MAX485 works at 3.3V. To be on the safe side, Use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!
+You can use an RS485-TTL adapter module to connect your ESP device with the DMX bus.
 
-For [this adapter](https://community.home-assistant.io/t/modbus-with-max-485-ttl-to-rs-485-converter-module/176540), use the wiring below:
-
-```
-MAX485-M VCC     -> ESP +3.3V
-MAX485-M GND     -> ESP GND
-MAX485-M DE      -> ESP +3.3V
-MAX485-M RE      -> not connected
-MAX485-M DI      -> ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
-MAX485-M A       -> XLR 3 (DMX +)
-MAX485-M B       -> XLR 2 (DMX -)
-MAX485-M GND     -> XLR 1 (DMX GND)
-```
-
-
-The RE pin can be left unconnected, since we do not want to receive anything from the bus. For this module, you could even leave DE unconnected since there is a pull-up resistor on the board.
-
-Don't forget about 120Ohm termination resistors (the specific module above already has the 120Ohm resistor as R7 on the board). If your fixture has DMX IN and OUT ports, on the OUT port of the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on MAX485-M, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain.
+Don't forget about 120Ohm termination resistors. If your fixture has DMX IN and OUT ports, on the OUT port of the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on your module, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain. Most of the modules already contain these resistors.
 
 Using good quality 120Ohm impedance cables, DMX lines can be run a maximum distance of approximately 1000 meters. With CAT5 cable DMX lines are safe until approximately 300 meters.
 
-You can also tie the DE pin to a GPIO of the ESP. Usually, you would configure this GPIO as `enable_pin` in the DMX component to activate the module automatically. 
-If you want to have a "mute" switch instead, define it as a switch instead and do not configure `enable_pin` in the DMX component:
+### MAX3485
 
+The MAX3485 is an 3.3V RS485-TTL adapter module.
+
+```
+MAX3485 VCC   ->   ESP +3.3V
+MAX3485 TXD   ->   not connected
+MAX3485 RXD   ->   ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
+MAX3485 GND   ->   ESP GND
+MAX3485 D+/A  ->   XLR 3 (DMX +)
+MAX3485 D-/B  ->   XLR 2 (DMX -)
+MAX3485 GND   ->   XLR 1 (DMX GND)
+```
+
+### MAX485
+
+The MAX485 is an 5V RS485-TTL adapter module.
+
+***Attention: Sometimes the MAX485 module works on 3.3V, however there is no guarantee it works correctly. To be on the safe side, use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!***
+
+```
+MAX485 VCC  ->   ESP +3.3V
+MAX485 GND  ->   ESP GND
+MAX485 DE   ->   ESP +3.3V
+MAX485 RE   ->   not connected
+MAX485 DI   ->   ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
+MAX485 A    ->   XLR 3 (DMX +)
+MAX485 B    ->   XLR 2 (DMX -)
+MAX485 GND  ->   XLR 1 (DMX GND)
+```
+
+The RE pin can be left unconnected, since we do not want to receive anything from the bus.
+
+For this module, you could even leave DE unconnected since there is a pull-up resistor on the board. You can also tie the DE pin to a GPIO of the ESP. Usually, you would configure this GPIO as `enable_pin` in the DMX component to activate the module automatically.
+
+If you want to have a "mute" switch instead, define it as a switch instead and do not configure `enable_pin` in the DMX component:
 
 ```
 switch:
