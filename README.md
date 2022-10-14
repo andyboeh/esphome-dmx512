@@ -100,7 +100,7 @@ Using good quality 120Ohm impedance cables, DMX lines can be run a maximum dista
 
 ### MAX3485
 
-The MAX3485 is an 3.3V RS485-TTL adapter module.
+The MAX3485 is an 3.3V RS485-TTL adapter module. It's recommended to use this module in combination with your ESP32 or ESP8266, because it fully supports 3.3V.
 
 ```
 MAX3485 VCC   ->   ESP +3.3V
