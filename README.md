@@ -19,19 +19,19 @@ On the ESP8266, the only pin you can use is GPIO2. It's TX-only and can easily b
 
 ## Configuration
 
-See the provided [example file](example_dmx.yaml) for a complete example, including `output` and `light` components. For the `dmx512` component, some options need additional explanation:
+See the provided [example file](example_dmx.yaml) for a complete example, including `output` and `light` components. For the `dmx512` component, some options need additional explanation. Start out with a minimal configuration and add the optional parameters only when required:
 ```
 dmx512:
   id: dmx
   uart_id: uart_bus
-  enable_pin: GPIO33
+  enable_pin: GPIO33 # optional
   tx_pin: GPIO5
   uart_num: 1
-  periodic_update: true
-  force_full_frames: false
-  custom_break_len: 92
-  custom_mab_len: 12
-  update_interval: 500
+  periodic_update: true # optional
+  force_full_frames: false #optional
+  custom_break_len: 92 #optional
+  custom_mab_len: 12 #optional
+  update_interval: 500 #optional
 ```
 
   * `id`: The ID of this DMX512 hub
@@ -43,7 +43,7 @@ dmx512:
   * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.
   * `custom_mab_len`: Set a custom mark-after-break length (in uS, default 12)
   * `custom_break_len`: Set a custom break length (in uS, default 92)
-  * `update_interval`: Specify a custom update interval, i.e. the minimum time between resending the current values (in ms, default 500)
+  * `update_interval`: Specify a custom update interval, i.e. the minimum time between resending the current values (in ms, default 500). This allows the customisation of the refresh rate, some fixtures require rates higher than 2Hz (=500ms refresh rate).
 
 Outputs point to channels in the DMX universe, from 1 to 512. 
 
