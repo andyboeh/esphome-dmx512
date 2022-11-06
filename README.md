@@ -102,6 +102,8 @@ Using good quality 120Ohm impedance cables, DMX lines can be run a maximum dista
 
 The MAX3485 is an 3.3V RS485-TTL adapter module. It's recommended to use this module in combination with your ESP32 or ESP8266, because it fully supports 3.3V.
 
+<img src="https://user-images.githubusercontent.com/27051051/200164977-89dfc4b1-682e-48ac-a908-11db8e6975ac.png" width=75%>
+
 ```
 MAX3485 VCC   ->   ESP +3.3V
 MAX3485 TXD   ->   not connected
@@ -117,6 +119,8 @@ MAX3485 GND   ->   XLR 1 (DMX GND)
 The MAX485 is an 5V RS485-TTL adapter module.
 
 ***Attention: Sometimes the MAX485 module works on 3.3V, however there is no guarantee it works correctly. To be on the safe side, use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!***
+
+<img src="https://user-images.githubusercontent.com/27051051/200165136-b72e907d-ecfb-4f07-8623-3410d9263809.png" width=75%>
 
 ```
 MAX485 VCC  ->   ESP +3.3V
