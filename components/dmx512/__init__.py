@@ -7,7 +7,7 @@ from esphome.core import CORE
 
 CODEOWNERS = ['@andyboeh']
 
-DEPENDENCIES = ['uart']
+DEPENDENCIES = ['uart','output']
 MULTI_CONF = True
 
 dmx512_ns = cg.esphome_ns.namespace('dmx512')
