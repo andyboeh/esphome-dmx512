@@ -3,6 +3,7 @@
 #include "dmx512esp8266.h"
 #include "esphome/core/log.h"
 #include "uart_register.h"
+#include "eagle_soc.h"
 
 namespace esphome {
 namespace dmx512 {
