@@ -27,7 +27,7 @@ dmx512:
   enable_pin: GPIO33 # optional
   tx_pin:
     number: GPIO5
-    allow_other_uses: true
+    allow_other_uses: true # for ESPHome 2023.12.0 or higher
   uart_num: 1
   periodic_update: true # optional
   force_full_frames: false #optional
@@ -39,7 +39,7 @@ dmx512:
   * `id`: The ID of this DMX512 hub
   * `uart_id`: Set this to the ID of your UART component
   * `enable_pin`: Set this to the pin number the MAX585 enable pins are connected to. Optional
-  * `tx_pin`: Set this to the same pin number as the UART component. This is required for the generation of the break signal. Defaults to GPIO5.
+  * `tx_pin`: Set this to the same pin number as the UART component. This is required for the generation of the break signal. Defaults to GPIO5. If ESPHome >= 2023.12.0 is used, the option `allow_other_uses` has to be set to `true` (here and in the UART component).
   * `uart_num`: Set this to the internal ESP32 UART number. If only logging is configured, this should be set to 1 (default). 
   * `periodic_update`: If set to false, only state changes are transmitted and the bus is silent in between - violates the specification and may cause some dimmers to turn off
   * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.

@@ -8,7 +8,7 @@ uart:
   baud_rate: 250000
   tx_pin: 
     number: GPIO2 #ESP8266
-    allow_other_uses: true
+    allow_other_uses: true # for ESPHome >= 2023.12.0
   stop_bits: 2
 
 dmx512:
@@ -16,7 +16,7 @@ dmx512:
   uart_id: uart_bus
   tx_pin: 
     number: GPIO2 #ESP8266
-    allow_other_uses: true
+    allow_other_uses: true # for ESPHome >= 2023.12.0
   uart_num: 1
 
 output:
