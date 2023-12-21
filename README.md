@@ -25,7 +25,9 @@ dmx512:
   id: dmx
   uart_id: uart_bus
   enable_pin: GPIO33 # optional
-  tx_pin: GPIO5
+  tx_pin:
+    number: GPIO5
+    allow_other_uses: true
   uart_num: 1
   periodic_update: true # optional
   force_full_frames: false #optional
