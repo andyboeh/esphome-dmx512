@@ -2,6 +2,8 @@
 
 This is a DMX512 custom component for ESPHome that allows Arduino-based devices to control DMX devices via UART (this requires an RS485 module, see below).
 
+If you like my work, consider sponsoring this project via [Github Sponsors](https://github.com/sponsors/andyboeh) or by acquiring one of my [Amazon Wishlist](https://www.amazon.de/hz/wishlist/ls/ROO2X0G63PCT?ref_=wl_share) items.
+
 ## Implementation
 
 The implementation is based on other projects:
