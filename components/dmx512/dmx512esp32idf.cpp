@@ -10,9 +10,9 @@ namespace dmx512 {
 static const char *TAG = "dmx512";
 
 void DMX512ESP32IDF::send_break() {
-  uart_set_line_inverse(this->uart_idx_, UART_SIGNAL_TXD_INV);
+  uart_set_line_inverse((uart_port_t)this->uart_idx_, UART_SIGNAL_TXD_INV);
   delayMicroseconds(this->break_len_);
-  uart_set_line_inverse(this->uart_idx_, UART_SIGNAL_INV_DISABLE);
+  uart_set_line_inverse((uart_port_t)this->uart_idx_, UART_SIGNAL_INV_DISABLE);
   delayMicroseconds(this->mab_len_);
 }
 

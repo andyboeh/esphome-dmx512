@@ -42,7 +42,7 @@ dmx512:
   * `uart_id`: Set this to the ID of your UART component
   * `enable_pin`: Set this to the pin number the MAX585 enable pins are connected to. Optional
   * `tx_pin`: Set this to the same pin number as the UART component. This is required for the generation of the break signal. Defaults to GPIO5. If ESPHome >= 2023.12.0 is used, the option `allow_other_uses` has to be set to `true` (here and in the UART component).
-  * `uart_num`: Set this to the internal ESP32 UART number. If only logging is configured, this should be set to 1 (default). 
+  * `uart_num`: Set this to the internal ESP32 UART number. If only logging is configured, this should be set to 1 (default). (Note some ESP32 boards don't have 3 UARTs, check the datasheet of your board if using a different one.)
   * `periodic_update`: If set to false, only state changes are transmitted and the bus is silent in between - violates the specification and may cause some dimmers to turn off
   * `force_full_frames`: If set to true, the full 513-byte frame is always sent. Otherwise, only the configured channels are transmitted.
   * `custom_mab_len`: Set a custom mark-after-break length (in uS, default 12)
