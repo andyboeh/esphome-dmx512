@@ -100,11 +100,9 @@ You can use an RS485-TTL adapter module to connect your ESP device with the DMX 
 
 Don't forget about 120Ohm termination resistors. If your fixture has DMX IN and OUT ports, on the OUT port of the last fixture in the chain you should use a termination resistor between XLR pins 2 and 3. Similarly on your module, it has to be placed in parallel with A and B outputs, given that it's going to be placed at the start of the chain. Most of the modules already contain these resistors.
 
-Using good quality 120Ohm impedance cables, DMX lines can be run a maximum distance of approximately 1000 meters. With CAT5 cable DMX lines are safe until approximately 300 meters.
-
 ### MAX3485
 
-The MAX3485 is an 3.3V RS485-TTL adapter module. It's recommended to use this module in combination with your ESP32 or ESP8266, because it fully supports 3.3V.
+The MAX3485 is an 3.3V RS485-TTL adapter module. It's recommended to use this module in combination with your ESP32 or ESP8266, because it fully supports 3.3V. The MAX485 might work under certain circumstances, but YMMV. 
 
 ```
 MAX3485 VCC   ->   ESP +3.3V
@@ -116,28 +114,11 @@ MAX3485 D-/B  ->   XLR 2 (DMX -)
 MAX3485 GND   ->   XLR 1 (DMX GND)
 ```
 
-### MAX485
-
-The MAX485 is an 5V RS485-TTL adapter module.
-
-***Attention: Sometimes the MAX485 module works on 3.3V, however there is no guarantee it works correctly. To be on the safe side, use the MAX3485 instead (which is the equivalent for 3.3V). NEVER power the module by 5V, the ESP is not designed for 5V logic!***
-
-```
-MAX485 VCC  ->   ESP +3.3V
-MAX485 GND  ->   ESP GND
-MAX485 DE   ->   ESP +3.3V
-MAX485 RE   ->   not connected
-MAX485 DI   ->   ESP32 GPIO5 or ESP8266 GPIO2 (as per examples above)
-MAX485 A    ->   XLR 3 (DMX +)
-MAX485 B    ->   XLR 2 (DMX -)
-MAX485 GND  ->   XLR 1 (DMX GND)
-```
-
 The RE pin can be left unconnected, since we do not want to receive anything from the bus.
 
-For this module, you could even leave DE unconnected since there is a pull-up resistor on the board. You can also tie the DE pin to a GPIO of the ESP. Usually, you would configure this GPIO as `enable_pin` in the DMX component to activate the module automatically.
+For some modules, you could even leave DE unconnected since there is a pull-up resistor on the board. You can also tie the DE pin to a GPIO of the ESP. Usually, you would configure this GPIO as `enable_pin` in the DMX component to activate the module automatically.
 
-If you want to have a "mute" switch instead, define it as a switch instead and do not configure `enable_pin` in the DMX component:
+If you want to have a "mute" switch instead, define it as a switch and do not configure `enable_pin` in the DMX component:
 
 ```
 switch:
